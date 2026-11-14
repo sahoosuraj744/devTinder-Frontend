@@ -27,7 +27,7 @@ const Connections = () => {
           {
              const { _id,firstName,lastName,photoUrl,gender,about,age}=connection
               return (<div key={_id} className="flex m-4 p-4 rounded-lg bg-base-200 w-1/2 mx-auto">
-                <div> <img src={photoUrl} alt="" className="w-20 h-20 rounded-full" /></div>
+                <div> <img src={photoUrl} alt="" className="w-20 h-20 rounded-full object-cover" /></div>
                 <div className="text-left mx-4">
                    <h2 className="font-bold text-xl">{firstName +" "+lastName}</h2>
                   {age && gender && <p>{age +", "+gender}</p>}
