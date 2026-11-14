@@ -25,17 +25,14 @@ const Connections = () => {
         {connections.map((connection)=>
       
           {
-             const {firstName,lastName,photoUrl,gender,about,age}=connection
-              return (<div className="flex m-4 p-4 rounded-lg bg-base-200 w-1/2 mx-auto">
+             const { _id,firstName,lastName,photoUrl,gender,about,age}=connection
+              return (<div key={_id} className="flex m-4 p-4 rounded-lg bg-base-200 w-1/2 mx-auto">
                 <div> <img src={photoUrl} alt="" className="w-20 h-20 rounded-full" /></div>
                 <div className="text-left mx-4">
                    <h2 className="font-bold text-xl">{firstName +" "+lastName}</h2>
-                   <p>{age +", "+gender}</p>
+                  {age && gender && <p>{age +", "+gender}</p>}
                    <p>{about}</p>
                 </div>
-         
-         
-
         </div> ) })}
     </div>
   )
