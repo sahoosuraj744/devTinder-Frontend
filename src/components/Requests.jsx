@@ -8,7 +8,7 @@ const Requests = () => {
   const dispatch=useDispatch()
   const reviewRequest=async(status,_id)=>{
     try {
-      const res=await axios.post(BASE_URL+"/request/review/"+status+"/"+_id,{},{withCredentials:true})
+      await axios.post(BASE_URL+"/request/review/"+status+"/"+_id,{},{withCredentials:true})
       dispatch(removeRequest(_id))
     } catch (error) {
       console.error(error);
@@ -36,7 +36,7 @@ const Requests = () => {
       
           {
              const {_id,firstName,lastName,photoUrl,gender,age}=request.fromUserId
-              return (<div key={_id} className="flex justify-between items-center m-4 p-4 rounded-lg bg-base-200 w-2/2 mx-auto">
+              return (<div key={_id} className="flex justify-between items-center m-4 p-4 rounded-lg bg-base-200 w-full mx-auto">
                 <div> <img src={photoUrl} alt="" className="w-20 h-20 rounded-full" /></div>
                 <div className="text-left mx-4">
                    <h2 className="font-bold text-xl">{firstName +" "+lastName}</h2>

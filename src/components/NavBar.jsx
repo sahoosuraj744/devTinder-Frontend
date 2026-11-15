@@ -5,7 +5,7 @@ import {BASE_URL} from '../utils/constants'
 import {useNavigate} from 'react-router-dom'
 import {useDispatch} from 'react-redux'
 import {removeUser} from '../utils/userSlice'
-const Navbar = () => {
+const NavBar = () => {
   const user=useSelector((store)=>store.user)
   const navigate=useNavigate()
   const dispatch=useDispatch()
@@ -55,4 +55,4 @@ const Navbar = () => {
   )
 }
 
-export default Navbar
+export default NavBar
