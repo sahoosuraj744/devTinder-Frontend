@@ -55,7 +55,7 @@ const Premium = () => {
   };
 
   return isUserPremium ? (
-    <h1>You are already a premium user!</h1>
+    <h1>You are a premium user!</h1>
   ) : (
     <div className="min-h-[80vh] flex flex-col items-center justify-center px-4 py-12">
       {/* Header Section */}
