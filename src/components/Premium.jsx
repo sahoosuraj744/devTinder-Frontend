@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 
@@ -6,24 +6,31 @@ const Premium = () => {
   const [isUserPremium, setIsUserPremium] = useState(false);
 
   const verifyPremiumUser = async () => {
-    const res = await axios.get(BASE_URL + "/premium/verify", {
-      withCredentials: true,
-    });
+    try {
+      const res = await axios.get(BASE_URL + "/premium/verify", {
+        withCredentials: true,
+      });
 
-    if (res.data.isPremium) {
-      setIsUserPremium(true);
+      if (res.data.isPremium) {
+        setIsUserPremium(true);
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 
- 
+  useEffect(() => {
+    verifyPremiumUser();
+  }, []);
 
   const handleBuyClick = async (type) => {
     const order = await axios.post(
       BASE_URL + "/payment/create",
-      { membershipType: type },
+      {
+        membershipType: type,
+      },
       { withCredentials: true },
     );
-
     const { amount, keyId, currency, notes, orderId, email } = order.data;
 
     const options = {
@@ -40,7 +47,7 @@ const Premium = () => {
       theme: {
         color: "#F37254",
       },
-      handler:verifyPremiumUser, // Call verifyPremiumUser after successful payment
+      handler: verifyPremiumUser, // Call verifyPremiumUser after successful payment
     };
 
     const rzp = new window.Razorpay(options);
