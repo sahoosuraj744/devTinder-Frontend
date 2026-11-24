@@ -1,20 +1,38 @@
+import { useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
+
 const Premium = () => {
+  const [isUserPremium, setIsUserPremium] = useState(false);
+
+  const verifyPremiumUser = async () => {
+    const res = await axios.get(BASE_URL + "/premium/verify", {
+      withCredentials: true,
+    });
+
+    if (res.data.isPremium) {
+      setIsUserPremium(true);
+    }
+  };
+
+ 
+
   const handleBuyClick = async (type) => {
     const order = await axios.post(
       BASE_URL + "/payment/create",
       { membershipType: type },
       { withCredentials: true },
     );
-    const {amount,keyId,currency,notes,orderId,email}=order.data;
+
+    const { amount, keyId, currency, notes, orderId, email } = order.data;
+
     const options = {
-      key: keyId, 
+      key: keyId,
       amount,
       currency,
       name: "Dev Tinder",
       description: "Connect with developers and find your perfect match.",
-      order_id:orderId, // This is the order_id created in the backend
+      order_id: orderId, // This is the order_id created in the backend
       prefill: {
         name: notes.firstName + " " + notes.lastName,
         email: email,
@@ -22,11 +40,16 @@ const Premium = () => {
       theme: {
         color: "#F37254",
       },
+      handler:verifyPremiumUser, // Call verifyPremiumUser after successful payment
     };
+
     const rzp = new window.Razorpay(options);
     rzp.open();
   };
-  return (
+
+  return isUserPremium ? (
+    <h1>You are already a premium user!</h1>
+  ) : (
     <div className="min-h-[80vh] flex flex-col items-center justify-center px-4 py-12">
       {/* Header Section */}
       <div className="text-center mb-12">
@@ -82,9 +105,9 @@ const Premium = () => {
         </div>
 
         {/* GOLD MEMBERSHIP CARD */}
-        <div className="relative card bg-gradient-to-b from-amber-950/30 via-base-300 to-base-300 border-2 border-amber-400/80 rounded-2xl p-8 shadow-2xl shadow-amber-500/10 md:scale-105 transition-all duration-300">
+        <div className="relative card bg-gradient-to-b from-amber-950/30 via-base-300 to-base-300 border-2 border-amber-400/80 rounded-2xl p-8 shadow-2xl shadow-amber-500/10">
           {/* Popular Badge */}
-          <div className="absolute -top-3.5 right-6 bg-gradient-to-r from-amber-400 to-yellow-500 text-black text-xs font-extrabold uppercase px-3 py-1 rounded-full shadow-md">
+          <div className="absolute -top-3.5 right-6 bg-gradient-to-r from-amber-400 to-yellow-500 text-black text-xs font-extrabold uppercase px-3 py-1 rounded-full">
             Most Popular
           </div>
 
@@ -120,7 +143,7 @@ const Premium = () => {
 
           <button
             onClick={() => handleBuyClick("gold")}
-            className="btn w-full bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-300 hover:to-yellow-400 text-black font-extrabold border-none shadow-lg shadow-amber-500/20"
+            className="btn w-full bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-300 hover:to-yellow-400 text-black font-extrabold border-none"
           >
             Buy Gold
           </button>
